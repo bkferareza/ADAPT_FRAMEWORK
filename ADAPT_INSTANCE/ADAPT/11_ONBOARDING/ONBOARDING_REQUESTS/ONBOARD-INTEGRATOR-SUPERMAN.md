@@ -1,0 +1,8 @@
+# Onboarding Request
+
+RequestID: ONBOARD-INTEGRATOR-SUPERMAN
+Command: Onboard SUPERMAN as Integrator
+Mode: SOLO_MULTI_ROLE_BOOTSTRAP
+Approval: EXPLICIT_USER_BATCH_AUTHORIZATION
+SourceTruth: SOURCE_TRUTH_V0.1
+Status: APPROVED

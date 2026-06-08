@@ -1,0 +1,6 @@
+@Paggawa.Api_HostAddress = http://localhost:5057
+
+GET {{Paggawa.Api_HostAddress}}/health
+Accept: application/json
+
+###

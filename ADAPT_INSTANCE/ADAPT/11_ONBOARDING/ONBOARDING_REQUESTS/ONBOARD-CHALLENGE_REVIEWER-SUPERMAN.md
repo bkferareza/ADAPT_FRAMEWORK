@@ -1,0 +1,8 @@
+# Onboarding Request
+
+RequestID: ONBOARD-CHALLENGE_REVIEWER-SUPERMAN
+Command: Onboard SUPERMAN as Challenge Reviewer
+Mode: SOLO_MULTI_ROLE_BOOTSTRAP
+Approval: EXPLICIT_USER_BATCH_AUTHORIZATION
+SourceTruth: SOURCE_TRUTH_V0.1
+Status: APPROVED

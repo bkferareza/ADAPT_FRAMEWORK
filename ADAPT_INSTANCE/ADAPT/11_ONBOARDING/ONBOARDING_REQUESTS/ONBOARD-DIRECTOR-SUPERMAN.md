@@ -1,0 +1,8 @@
+# Onboarding Request
+
+RequestID: ONBOARD-DIRECTOR-SUPERMAN
+Command: Onboard SUPERMAN as Director
+Mode: SOLO_MULTI_ROLE_BOOTSTRAP
+Approval: EXPLICIT_USER_BATCH_AUTHORIZATION
+SourceTruth: SOURCE_TRUTH_V0.1
+Status: APPROVED
