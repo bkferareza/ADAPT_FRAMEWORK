@@ -1,8 +1,8 @@
-# START HERE — ADAPT Framework Launcher
+# START HERE - ADAPT Full External Instance Launcher
 
 ## Purpose
 
-This file is the primary entrypoint for using ADAPT.
+This file is the single sufficient launcher for ADAPT scaffolding.
 
 When an AI tool is told:
 
@@ -10,95 +10,156 @@ When an AI tool is told:
 Read and execute START_HERE.md
 ```
 
-it must start from this file.
+it must scaffold a complete external ADAPT governance instance from the provided project document, populate starter governance artifacts, avoid project source mutation, report the result, and stop.
 
-This repository is the **ADAPT Framework Source**. It is not automatically the target project and not automatically the project-specific ADAPT instance.
+There is only one default initialization behavior:
 
-ADAPT should normally operate with three separate folders:
+```text
+FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD
+```
+
+Do not ask the user to choose ADAPT_LITE, TEMPLATE_ONLY, DIRECTOR_ONLY, SOURCE_TRUTH_ONLY, FULL_SCAFFOLD, or any other startup mode.
+
+---
+
+## Operating Model
+
+Use three folders:
 
 ```text
 /workspace/
-├── ADAPT_FRAMEWORK/
-│   └── reusable ADAPT framework, templates, commands, and rules
-│
-├── PROJECT_FOLDER/
-│   └── actual project files, source code, business files, or existing repo
-│
-└── ADAPT_INSTANCE/
-    └── project-specific ADAPT control plane, source truth, workcells, handoffs, evidence, and context packs
+|-- ADAPT_FRAMEWORK/
+|   `-- reusable ADAPT framework source
+|
+|-- PROJECT_FOLDER/
+|   `-- actual project files or empty project folder
+|
+`-- ADAPT_INSTANCE/
+    `-- generated project-specific ADAPT governance instance
 ```
 
-Default rule:
+Rules:
 
-> Do not initialize ADAPT inside the project folder unless the user explicitly approves it.
-
----
-
-# 1. First Instruction to the AI Tool
-
-You are an AI tool operating ADAPT.
-
-Before creating, modifying, scaffolding, or executing anything, you must classify the operating context.
-
-You must determine:
-
-1. Where is the ADAPT Framework Source?
-2. Where is the target Project Folder?
-3. Where should the ADAPT Instance be created or recovered?
-4. Is the project new or existing?
-5. What initialization mode is requested?
-6. Is source truth already provided?
-7. Is file creation approved?
-8. Is project source mutation approved?
-
-If any of these are missing, ask the user.
-
-Do not guess.
+- `ADAPT_FRAMEWORK` is read-only by default.
+- `PROJECT_FOLDER` is read-only by default.
+- `ADAPT_INSTANCE` is the default write target.
+- Do not initialize ADAPT inside the project folder unless explicitly instructed.
+- Do not mutate application source code.
+- Do not create backend/frontend/test implementation files.
+- Do not create database schema.
+- Do not create pipeline/deployment files.
+- Do not finalize technology stack.
+- Do not assign implementation tasks.
+- Do not create real person-owned workcells unless onboarding commands are explicitly provided.
+- If team roles are implied by the project, create workcell role placeholders and README content only, not real workcells.
 
 ---
 
-# 2. Required First Response
+## Required Startup Inputs
 
-When this file is read without complete startup details, respond with:
+Ask only for missing required paths or permissions.
+
+Required:
 
 ```text
-ADAPT startup requires target details.
+ADAPT framework path:
+Project folder path:
+ADAPT instance path:
+Project document path:
+File creation approval: YES/NO
+Project source mutation approval: YES/NO
+```
 
-Please provide:
+Optional:
+
+```text
+Project classification: NEW_PROJECT or EXISTING_PROJECT
+Source truth promotion: YES/NO
+Known team members:
+Known target stack:
+```
+
+If optional values are missing, do not block scaffolding.
+
+Defaults:
+
+```text
+Project classification:
+NEW_PROJECT, unless existing source code is detected and discovery is approved.
+
+Source truth promotion:
+YES, if the user provides a project document and says to initialize ADAPT from it.
+
+Project source mutation approval:
+NO.
+
+File creation approval:
+Ask if not provided.
+
+Initialization behavior:
+FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD.
+```
+
+If required values are missing, ask with this exact shape and do not add mode choices:
+
+```text
+ADAPT startup requires required paths and permissions.
+
+Please provide any missing values:
 
 1. ADAPT framework path:
 2. Project folder path:
-3. ADAPT instance output path:
-4. Is this a NEW_PROJECT or EXISTING_PROJECT?
-5. Initialization mode:
-   - ADAPT_LITE
-   - TEMPLATE_ONLY
-   - DIRECTOR_ONLY
-   - SOURCE_TRUTH_ONLY
-   - FULL_SCAFFOLD
-   - WORKCELL_ONBOARDING
-   - RECOVER_EXISTING_ADAPT
-6. Source truth document path, if any:
-7. Should source truth be promoted now? YES/NO
-8. May I create or modify files? YES/NO
-9. May I modify project source code? YES/NO
-```
+3. ADAPT instance path:
+4. Project document path:
+5. File creation approval: YES/NO
+6. Project source mutation approval: YES/NO
 
-If the user already provided these details, continue without asking again.
+Optional, non-blocking:
+
+7. Project classification: NEW_PROJECT or EXISTING_PROJECT
+8. Source truth promotion: YES/NO
+9. Known team members:
+10. Known target stack:
+```
 
 ---
 
-# 3. Operating Identity
+## Required Launcher Workflow
 
-This repository should be treated as:
+When required inputs are present and file creation approval is `YES`, perform this workflow:
 
 ```text
-ADAPT_FRAMEWORK_SOURCE
+1. Identify ADAPT framework path.
+2. Identify project folder path.
+3. Identify ADAPT instance output path.
+4. Identify project document path.
+5. Read reusable ADAPT framework files.
+6. Read the project document.
+7. Extract source truth from the project document.
+8. Infer the project shape.
+9. Create the full external ADAPT instance scaffold.
+10. Populate source truth starter artifacts.
+11. Populate Director Lane starter artifacts.
+12. Populate guardrails, templates, handoffs, context economy, onboarding, janitor, planning, commands/drivers, memory bank, integration, validation, and challenge folders.
+13. Record missing technical/project details as open questions or gaps.
+14. Emit the first recommended next command.
+15. Stop.
 ```
 
-It contains reusable ADAPT materials:
+If file creation approval is missing or `NO`, do not create files. Report that initialization is blocked by missing file creation approval.
+
+If project source mutation approval is missing, default it to `NO`. Project source mutation approval is not required for this scaffold because project source files must not be changed.
+
+---
+
+## Required Framework Files To Read
+
+Read from `ADAPT_FRAMEWORK` as reusable source:
 
 ```text
+START_HERE.md
+README.md
+
 ADAPT/00_FRAMEWORK/
 ADAPT/07_GUARDRAILS/
 ADAPT/08_TEMPLATES/
@@ -109,293 +170,7 @@ ADAPT/13_PLANNING/
 ADAPT/15_COMMANDS_AND_DRIVERS/
 ```
 
-These files are reusable framework references.
-
-Project-specific state should be written to the external ADAPT Instance folder, not to this framework repository, unless the user explicitly says they are updating the framework itself.
-
----
-
-# 4. Folder Roles
-
-## 4.1 ADAPT Framework Source
-
-Purpose:
-
-```text
-Reusable ADAPT framework, rules, templates, command drivers, and operating model.
-```
-
-Allowed by default:
-
-```text
-Read framework files.
-Use templates.
-Use command drivers.
-Use guardrail definitions.
-Use action prompts.
-```
-
-Forbidden by default:
-
-```text
-Do not store project-specific control plane here.
-Do not store project-specific workcells here.
-Do not store project-specific handoffs here.
-Do not mutate framework files unless the user explicitly requests framework changes.
-```
-
----
-
-## 4.2 Project Folder
-
-Purpose:
-
-```text
-Actual application source code, business files, existing project repo, or product documents.
-```
-
-Allowed by default:
-
-```text
-Read only if user approves discovery.
-```
-
-Forbidden by default:
-
-```text
-Do not mutate project source code.
-Do not create application files.
-Do not create backend/frontend/test files.
-Do not change build, pipeline, or deployment files.
-```
-
-Project source mutation requires:
-
-```text
-approved workcell
-active handoff
-scope contract
-context pack
-mutation permission
-required evidence
-explicit user approval when required
-```
-
----
-
-## 4.3 ADAPT Instance Folder
-
-Purpose:
-
-```text
-Project-specific ADAPT governance state.
-```
-
-Allowed outputs:
-
-```text
-ADAPT control plane
-source truth map
-Director Lane
-workcell registry
-workcells
-handoffs
-context packs
-context deltas
-evidence reports
-gap register
-blocker register
-planning artifacts
-janitor reports
-cycle consolidation reports
-```
-
-This is the default write target for ADAPT project operations.
-
----
-
-# 5. Initialization Modes
-
-The user must choose one initialization mode.
-
-## 5.1 ADAPT_LITE
-
-Use when:
-
-```text
-early project
-solo testing
-requirements only
-no full team yet
-no implementation yet
-```
-
-Creates or recovers only:
-
-```text
-00_FRAMEWORK reference copy or links
-01_SOURCE_TRUTH
-02_DIRECTOR_LANE
-08_TEMPLATES
-10_CONTEXT_ECONOMY
-11_ONBOARDING
-```
-
-Does not create:
-
-```text
-full workcells
-full QA structure
-full integration structure
-challenge lane
-heavy janitor workflow
-implementation tasks
-```
-
-ADAPT Lite is not weaker ADAPT. It is the safe bootstrap mode before the team and delivery workflow exist.
-
----
-
-## 5.2 TEMPLATE_ONLY
-
-Use when the user only wants reusable templates scaffolded.
-
-Creates:
-
-```text
-ADAPT/08_TEMPLATES/
-```
-
-Does not create:
-
-```text
-Director Lane
-workcells
-source truth
-implementation tasks
-```
-
----
-
-## 5.3 DIRECTOR_ONLY
-
-Use when the user wants the project control layer but no team workcells yet.
-
-Creates:
-
-```text
-ADAPT/02_DIRECTOR_LANE/
-```
-
-May also create:
-
-```text
-ADAPT/01_SOURCE_TRUTH/
-ADAPT/10_CONTEXT_ECONOMY/
-```
-
-Does not create real workcells unless explicitly onboarded.
-
----
-
-## 5.4 SOURCE_TRUTH_ONLY
-
-Use when the user wants business/project documents normalized into ADAPT source truth.
-
-Requires:
-
-```text
-source truth document path
-approval to promote or draft-map source truth
-```
-
-Missing technology stack should not block this mode.
-
-If technical stack is missing, record it in:
-
-```text
-OPEN_QUESTIONS.md
-GAP_REGISTER.md
-```
-
----
-
-## 5.5 FULL_SCAFFOLD
-
-Use when the user wants the full ADAPT governance scaffold.
-
-May create:
-
-```text
-00_FRAMEWORK
-01_SOURCE_TRUTH
-02_DIRECTOR_LANE
-04_INTEGRATION
-05_VALIDATION
-06_HANDOFFS
-07_GUARDRAILS
-08_TEMPLATES
-09_CHALLENGE_LANE
-10_CONTEXT_ECONOMY
-11_ONBOARDING
-12_JANITOR
-13_PLANNING
-14_MEMORY_BANK
-15_COMMANDS_AND_DRIVERS
-```
-
-Does not create real human workcells unless explicit onboarding commands are provided.
-
----
-
-## 5.6 WORKCELL_ONBOARDING
-
-Use when the user says:
-
-```text
-Onboard <Name> as <Role>
-```
-
-Requires:
-
-```text
-Director Lane exists
-Workcell Registry exists
-role is supported
-user explicitly requested onboarding
-```
-
-Creates:
-
-```text
-ADAPT/03_WORKCELLS/<ROLE>_<NAME>/
-```
-
----
-
-## 5.7 RECOVER_EXISTING_ADAPT
-
-Use when an ADAPT Instance already exists.
-
-Must read:
-
-```text
-ADAPT/02_DIRECTOR_LANE/PROJECT_CONTROL_PLANE.md
-ADAPT/06_HANDOFFS/ACTIVE/
-ADAPT/10_CONTEXT_ECONOMY/CONTEXT_DELTAS/
-ADAPT/02_DIRECTOR_LANE/BLOCKER_REGISTER.md
-ADAPT/02_DIRECTOR_LANE/GAP_REGISTER.md
-```
-
-Then recover current state before executing anything.
-
----
-
-# 6. Required Framework Files to Read
-
-When operating ADAPT, read only what is needed.
-
-Minimum framework files:
+Read only the minimum necessary files first:
 
 ```text
 ADAPT/15_COMMANDS_AND_DRIVERS/ACTION_PROMPT_MASTER.md
@@ -408,9 +183,296 @@ ADAPT/15_COMMANDS_AND_DRIVERS/HUMAN_APPROVAL_GATES.md
 ADAPT/15_COMMANDS_AND_DRIVERS/CONTEXT_BUDGET_POLICY.md
 ```
 
-Read role-specific prompts only when needed:
+When scaffolding folders that depend on reusable content, copy existing framework files where available. If a required artifact is missing from the framework source, generate a conservative starter artifact with placeholders, explicit source references, and open gaps rather than inventing project facts.
+
+If `MINIMAL_VIABLE_ADAPT_MODE.md` exists in the framework source, copy it as historical/reference only and mark it:
 
 ```text
+STATUS: DEPRECATED_FOR_DEFAULT_START_HERE_FLOW
+NOTE: START_HERE now always scaffolds the full external ADAPT instance.
+```
+
+---
+
+## Required Project Document Extraction
+
+From the project document, extract:
+
+```text
+project name
+business/domain summary
+primary users
+main workflows
+business rules
+requirement sections
+acceptance criteria
+non-goals
+risks
+open questions
+suggested product surfaces/modules
+suggested validation concerns
+suggested integration concerns
+suggested role/workcell types
+```
+
+Do not invent missing content.
+
+If language, platform, framework, database, authentication, deployment, testing expectations, team names and roles, or first milestone are missing, record them as open questions or gaps.
+
+Use gap types:
+
+```text
+GAP-T10 Decision Gap
+GAP-T11 Context Gap
+```
+
+Missing technical details must not block scaffolding.
+
+---
+
+## Required ADAPT Instance Folders
+
+Always create the full external ADAPT instance scaffold:
+
+```text
+<ADAPT_INSTANCE>/ADAPT/00_FRAMEWORK/
+<ADAPT_INSTANCE>/ADAPT/01_SOURCE_TRUTH/
+<ADAPT_INSTANCE>/ADAPT/02_DIRECTOR_LANE/
+<ADAPT_INSTANCE>/ADAPT/03_WORKCELLS/
+<ADAPT_INSTANCE>/ADAPT/04_INTEGRATION/
+<ADAPT_INSTANCE>/ADAPT/05_VALIDATION/
+<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/
+<ADAPT_INSTANCE>/ADAPT/07_GUARDRAILS/
+<ADAPT_INSTANCE>/ADAPT/08_TEMPLATES/
+<ADAPT_INSTANCE>/ADAPT/09_CHALLENGE_LANE/
+<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/
+<ADAPT_INSTANCE>/ADAPT/11_ONBOARDING/
+<ADAPT_INSTANCE>/ADAPT/12_JANITOR/
+<ADAPT_INSTANCE>/ADAPT/13_PLANNING/
+<ADAPT_INSTANCE>/ADAPT/14_MEMORY_BANK/
+<ADAPT_INSTANCE>/ADAPT/15_COMMANDS_AND_DRIVERS/
+```
+
+Also create handoff subfolders:
+
+```text
+<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/ACTIVE/
+<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/CONSUMED/
+<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/ARCHIVE/
+```
+
+Also create context subfolders:
+
+```text
+<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_PACKS/
+<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_DELTAS/
+<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_SUMMARIES/
+```
+
+---
+
+## Required Starter Artifacts
+
+Generate these files inside the ADAPT instance.
+
+### 00_FRAMEWORK
+
+```text
+ADAPT_FRAMEWORK.md
+GOVERNANCE_RULES.md
+ROLE_MODEL.md
+ARTIFACT_STANDARDS.md
+GLOSSARY.md
+SOURCE_AUTHORITY_POLICY.md
+```
+
+### 01_SOURCE_TRUTH
+
+```text
+REQUIREMENTS_INDEX.md
+BUSINESS_ITEMS.md
+REQUIREMENT_SECTION_MAP.md
+ACCEPTANCE_CRITERIA.md
+OPEN_QUESTIONS.md
+SOURCE_TRUTH_VERSION_LOG.md
+```
+
+### 02_DIRECTOR_LANE
+
+```text
+DIRECTOR_IDENTITY.md
+PROJECT_CONTROL_PLANE.md
+INTAKE_REGISTER.md
+WORKCELL_REGISTRY.md
+LANE_ASSIGNMENT_MATRIX.md
+DEPENDENCY_MAP.md
+GAP_REGISTER.md
+BLOCKER_REGISTER.md
+DECISION_LOG.md
+ACCEPTED_WORK_REGISTER.md
+CARRY_OVER_REGISTER.md
+```
+
+### 03_WORKCELLS
+
+If no explicit onboarding commands were provided, create:
+
+```text
+README.md
+ROLE_WORKCELL_BLUEPRINTS.md
+```
+
+The README must say:
+
+```text
+No real person-owned workcells have been onboarded yet.
+Use: Onboard <Name> as <Role>.
+```
+
+Do not create real workcells unless explicit onboarding commands were provided.
+
+### 04_INTEGRATION
+
+```text
+INTEGRATION_CONTRACTS.md
+API_CONTRACTS.md
+UI_BE_CONTRACTS.md
+PIPELINE_STATUS.md
+MERGE_READINESS.md
+RELEASE_READINESS.md
+INTEGRATION_GAPS.md
+```
+
+### 05_VALIDATION
+
+```text
+QA_STRATEGY.md
+TEST_CASE_INDEX.md
+DEFECT_REGISTER.md
+VALIDATION_EVIDENCE.md
+REGRESSION_RISK_MAP.md
+SIGNOFF_REGISTER.md
+```
+
+### 06_HANDOFFS
+
+```text
+README.md
+ACTIVE/README.md
+CONSUMED/README.md
+ARCHIVE/README.md
+```
+
+### 07_GUARDRAILS
+
+```text
+SCOPE_GUARDRAIL.md
+CONTEXT_GUARDRAIL.md
+EVIDENCE_GUARDRAIL.md
+CONTRACT_GUARDRAIL.md
+MUTATION_GUARDRAIL.md
+QA_INDEPENDENCE_GUARDRAIL.md
+HANDOFF_GUARDRAIL.md
+```
+
+### 08_TEMPLATES
+
+Copy or generate all reusable templates from the framework template source.
+
+Required template files include:
+
+```text
+WORKCELL_IDENTITY_TEMPLATE.md
+SCOPE_CONTRACT_TEMPLATE.md
+AGENT_TEAM_TEMPLATE.md
+ROADMAP_TEMPLATE.md
+TASK_REGISTER_TEMPLATE.md
+HANDOFF_TEMPLATE.md
+EVIDENCE_REPORT_TEMPLATE.md
+GAP_TEMPLATE.md
+BLOCKER_TEMPLATE.md
+CONTEXT_PACK_TEMPLATE.md
+CONTEXT_DELTA_TEMPLATE.md
+VALIDATION_REPORT_TEMPLATE.md
+QA_TEST_CASE_TEMPLATE.md
+DEFECT_REPORT_TEMPLATE.md
+INTEGRATION_REPORT_TEMPLATE.md
+MERGE_READINESS_TEMPLATE.md
+ONBOARDING_REQUEST_TEMPLATE.md
+ONBOARDING_REPORT_TEMPLATE.md
+MILESTONE_PLAN_TEMPLATE.md
+WORKCELL_ROADMAP_TEMPLATE.md
+OVEREXTENSION_RISK_TEMPLATE.md
+JANITOR_REPORT_TEMPLATE.md
+CHALLENGE_REPORT_TEMPLATE.md
+CYCLE_CONSOLIDATION_TEMPLATE.md
+```
+
+### 09_CHALLENGE_LANE
+
+```text
+CHALLENGE_IDENTITY.md
+CHALLENGE_REGISTER.md
+CHALLENGE_REPORT_TEMPLATE.md
+```
+
+### 10_CONTEXT_ECONOMY
+
+```text
+CONTEXT_RULES.md
+CONTEXT_BUDGETS.md
+CONTEXT_INDEX.md
+STALE_CONTEXT_REGISTER.md
+```
+
+### 11_ONBOARDING
+
+```text
+ONBOARDING_RULES.md
+ROLE_TO_WORKCELL_MAP.md
+ONBOARDING_REQUESTS.md
+ONBOARDING_REPORTS.md
+```
+
+### 12_JANITOR
+
+```text
+JANITOR_RULES.md
+STALE_ARTIFACT_REGISTER.md
+ARCHIVE_CANDIDATES.md
+CLEANUP_REPORTS.md
+COMPACTION_SUMMARIES.md
+```
+
+### 13_PLANNING
+
+```text
+PLANNING_RULES.md
+MILESTONE_REGISTER.md
+CAPACITY_MODEL.md
+MILESTONE_PLANS.md
+WORKCELL_ROADMAPS.md
+OVEREXTENSION_RISK_REPORTS.md
+DEPENDENCY_SEQUENCES.md
+```
+
+### 14_MEMORY_BANK
+
+```text
+REFERENCES_INDEX.md
+NOTES.md
+```
+
+### 15_COMMANDS_AND_DRIVERS
+
+Copy or generate:
+
+```text
+COMMAND_REGISTRY.md
+COMMAND_SYNTAX.md
+COMMAND_ROUTING_MATRIX.md
+CONTROL_PLANE_SCHEMA.md
+ACTION_PROMPT_MASTER.md
 ACTION_PROMPT_DIRECTOR.md
 ACTION_PROMPT_CONTEXT_STEWARD.md
 ACTION_PROMPT_ONBOARDING.md
@@ -420,210 +482,109 @@ ACTION_PROMPT_INTEGRATOR.md
 ACTION_PROMPT_QA.md
 ACTION_PROMPT_JANITOR.md
 ACTION_PROMPT_CHALLENGE.md
+MUTATION_PERMISSION_MATRIX.md
+HUMAN_APPROVAL_GATES.md
+STOP_RULES.md
+CONTEXT_BUDGET_POLICY.md
+EVIDENCE_STANDARD_BY_ROLE.md
+MINIMAL_VIABLE_ADAPT_MODE.md
 ```
-
-Read templates only when scaffolding artifacts.
 
 ---
 
-# 7. Universal Execution Law
+## Source Truth Behavior
 
-Every ADAPT action must follow Adaptive / Atomic Handoff Dispatch.
-
-The sequence is:
+If source truth promotion is `YES`, record the project document as:
 
 ```text
-1. Recover current state.
-2. Locate active handoff or control plane.
-3. Validate authority.
-4. Estimate job size.
-5. Compute minimum safe context.
-6. Generate or attach Context Pack.
-7. Decide execute / split / block / route.
-8. Execute only one authorized bounded move.
-9. Produce evidence.
-10. Produce Context Delta.
-11. Emit next handoff.
-12. Update control plane.
-13. Stop.
+SOURCE_TRUTH_V0.1
 ```
 
-Do not continue after emitting the next handoff.
-
----
-
-# 8. Authority Rules
-
-## 8.1 Conversation is not authority
-
-Chat messages, assumptions, and model memory are not operational authority.
-
-Authority lives in:
-
-```text
-source truth
-control plane
-active handoff
-scope contract
-context pack
-decision log
-evidence artifacts
-approval records
-```
-
----
-
-## 8.2 Memory Bank is not live authority
-
-Memory Bank is reference only.
-
-A Memory Bank item becomes live only if promoted through Director-controlled workflow.
-
----
-
-## 8.3 Source truth must be promoted
-
-Project documents are not automatically live source truth.
-
-To promote a document, the user must explicitly say something like:
-
-```text
-Promote <document> as SOURCE_TRUTH_V0.1
-```
-
-The promotion must be recorded in:
+Update:
 
 ```text
 SOURCE_TRUTH_VERSION_LOG.md
 DECISION_LOG.md
+PROJECT_CONTROL_PLANE.md
 ```
 
----
-
-## 8.4 Markdown and document authority
-
-Portable documents may exist as `.docx`.
-
-Markdown artifacts are preferred for operational use.
-
-If `.docx` and `.md` conflict:
+If source truth promotion is missing, default to draft map only and record:
 
 ```text
-Director Lane must resolve the conflict through DECISION_LOG.md.
+SOURCE_TRUTH_STATUS: DRAFT_SOURCE_TRUTH_MAP
 ```
+
+If source truth promotion is `NO`, record the document extraction as a draft source truth map and preserve all extracted items as non-promoted starter artifacts.
 
 ---
 
-# 9. Project Source Mutation Rules
+## Project Control Plane Defaults
 
-Do not mutate project source code unless all are true:
+`PROJECT_CONTROL_PLANE.md` must include:
 
 ```text
-1. A real workcell owns the mutation.
-2. There is an active handoff.
-3. There is a context pack.
-4. Scope contract permits the mutation.
-5. Mutation permission matrix allows it.
-6. Required evidence is known.
-7. Stop rules do not block execution.
+ProjectName:
+ProjectClassification:
+InitializationBehavior: FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD
+SourceTruthVersion:
+SourceTruthStatus:
+ProjectFolderPath:
+AdaptFrameworkPath:
+AdaptInstancePath:
+TechnologyStackStatus: UNKNOWN_OR_NOT_FINALIZED
+ProjectSourceMutationApproval: NO
+ApplicationCodeCreated: NO
+RealWorkcellsOnboarded: NO
+ActiveHandoff: NONE
+CurrentPhase: SCAFFOLD_INITIALIZED
+ExecutionReadiness: READY_FOR_DIRECTOR_INTAKE
+NextExpectedAction: Run Director intake
 ```
 
-Director Lane must never mutate application source code.
-
-QA Workcell must not mutate application source code.
-
-Janitor must not mutate application source code.
-
-Context Steward must not mutate application source code.
-
-Challenge Lane must not mutate application source code.
+Always set `ProjectSourceMutationApproval` to `NO` unless the user explicitly provided `YES`. Even with approval, this startup flow must not mutate project source files.
 
 ---
 
-# 10. Startup Decision Tree
+## Starter Artifact Population Rules
 
-## If no project folder path is provided
+Populate starter artifacts from the project document and reusable framework files.
 
-Ask for it.
+Use project document content for:
 
-Do not continue.
+- source truth starter maps
+- business items
+- requirement section map
+- acceptance criteria
+- open questions
+- inferred project shape
+- suggested validation concerns
+- suggested integration concerns
+- suggested role/workcell types
 
-## If no ADAPT instance path is provided
+Use reusable framework content for:
 
-Ask for it.
+- framework references
+- governance rules
+- guardrails
+- templates
+- context economy rules
+- onboarding rules
+- janitor rules
+- planning rules
+- commands and drivers
 
-Do not create inside the project folder by default.
+Use placeholders only where facts are absent. Mark placeholders clearly as `TBD`, `UNKNOWN`, `NOT_PROVIDED`, `OPEN_QUESTION`, or `GAP`.
 
-## If project is existing but discovery is not approved
-
-Do not inspect project source.
-
-Ask for approval.
-
-## If project is new and no source truth exists
-
-Ask for business/project document or requirements.
-
-## If source truth is provided but not approved for promotion
-
-Create draft source truth map only, or ask for promotion approval.
-
-## If initialization mode is missing
-
-Ask the user to choose a mode.
-
-## If technology stack is missing
-
-Do not block framework, template, Director, or source truth scaffolding.
-
-Record as open question or gap.
-
-## If team members are missing
-
-Do not block framework, template, Director, or source truth scaffolding.
-
-Do not create real workcells.
-
-Wait for onboarding commands.
+Do not create implementation plans, assigned tasks, code files, tests, schemas, pipelines, deployment manifests, or final stack choices.
 
 ---
 
-# 11. Valid Commands
+## Required Output Report
 
-Supported commands include:
-
-```text
-Initialize ADAPT from requirements
-Promote <document> as SOURCE_TRUTH_V0.1
-Analyze requirements into source truth
-Run Director intake
-Onboard <Name> as <Role>
-Plan milestone <Milestone ID>
-Approve milestone plan
-Generate roadmap for <Workcell>
-Generate context pack for active handoff
-Run atomic handoff dispatch
-Route gap <Gap ID>
-Resolve blocker <Blocker ID>
-Run integration review
-Run QA validation
-Trigger challenge review
-Run janitor pass
-Director consolidate cycle
-Prepare next cycle
-Recover existing ADAPT instance
-```
-
-If a command is unclear, classify it and ask for confirmation before execution.
-
----
-
-# 12. Required Output Format
-
-After any startup or execution attempt, respond with:
+After execution, produce:
 
 ```markdown
-# ADAPT Startup / Execution Report
+# ADAPT Startup / Initialization Report
 
 ## Framework Source Path
 
@@ -637,23 +598,33 @@ After any startup or execution attempt, respond with:
 
 <path>
 
-## Project Classification
+## Project Document Path
 
-<NEW_PROJECT or EXISTING_PROJECT>
+<path>
 
-## Initialization Mode
+## Initialization Behavior
 
-<mode>
+FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD
 
-## Current Phase
+## Source Truth Status
 
-<phase>
+<SOURCE_TRUTH_V0.1 | DRAFT_SOURCE_TRUTH_MAP>
 
-## Action Performed
+## Inferred Project Shape
 
-<summary>
+- Project name:
+- Primary users:
+- Main workflows:
+- Suggested surfaces/modules:
+- Suggested workcell types:
+- Validation concerns:
+- Integration concerns:
 
-## Files Created
+## ADAPT Folders Created
+
+<list>
+
+## ADAPT Files Created
 
 <list>
 
@@ -661,11 +632,11 @@ After any startup or execution attempt, respond with:
 
 <list>
 
-## Files Not Touched
+## Project Files Touched
 
-<list>
+Must be NONE unless explicitly approved.
 
-## Open Questions
+## Open Questions Recorded
 
 <list>
 
@@ -679,150 +650,52 @@ After any startup or execution attempt, respond with:
 
 ## Next Recommended Command
 
-<exact next command>
+Run Director intake.
 
 ## Status
 
-<READY_FOR_USER_REVIEW | READY_FOR_SOURCE_TRUTH_PROMOTION | READY_FOR_DIRECTOR_LANE | READY_FOR_ONBOARDING | READY_FOR_PLANNING | BLOCKED>
+READY_FOR_DIRECTOR_INTAKE
 ```
 
 ---
 
-# 13. Non-Negotiable Stop Rules
+## Validation Checklist
 
-Stop if:
+Before reporting success, verify:
 
-```text
-no active authority exists
-multiple active handoffs exist
-source truth is missing for source-truth-dependent work
-context pack is missing for execution
-scope exceeds workcell authority
-mutation authority is missing
-Director is asked to mutate code
-QA is asked to validate without acceptance criteria
-implementation task has no owner
-required evidence cannot be produced
-guardrail returns STOP_REQUIRED
-```
-
-When stopping, create or recommend a gap/blocker instead of guessing.
-
----
-
-# 14. How to Start ADAPT on a New Machine
-
-Use a prompt like:
-
-```text
-Read and execute START_HERE.md.
-
-ADAPT framework path:
-C:\WORK\ADAPT_FRAMEWORK
-
-Project folder path:
-C:\WORK\PROJECT_X
-
-ADAPT instance path:
-C:\WORK\PROJECT_X_ADAPT
-
-Project classification:
-EXISTING_PROJECT
-
-Initialization mode:
-DIRECTOR_ONLY
-
-Do not mutate project source code.
-```
-
-If values are missing, ask for them.
+- Required paths were identified.
+- File creation approval was `YES`.
+- Project source mutation approval was treated as `NO` by default.
+- The ADAPT instance path is outside the project folder unless explicitly instructed otherwise.
+- All required ADAPT folders exist under `<ADAPT_INSTANCE>/ADAPT/`.
+- All required handoff and context subfolders exist.
+- All required starter artifacts exist or are explicitly recorded as gaps.
+- Source truth status is recorded as either `SOURCE_TRUTH_V0.1` or `DRAFT_SOURCE_TRUTH_MAP`.
+- `PROJECT_CONTROL_PLANE.md` contains the required defaults.
+- `OPEN_QUESTIONS.md` includes missing technical/project details.
+- `GAP_REGISTER.md` includes missing technical/project details as decision or context gaps.
+- No project source files were created or modified.
+- No backend/frontend/test implementation files were created.
+- No database schema, pipeline file, deployment file, or technology stack finalization was created.
+- No real person-owned workcells were created unless explicit onboarding commands were provided.
+- The report ends with `READY_FOR_DIRECTOR_INTAKE`.
 
 ---
 
-# 15. How to Start ADAPT for an Empty New Project
+## Non-Negotiable Final Rules
 
-Use:
+If required paths are present and file creation approval is YES, scaffold the full external ADAPT instance.
 
-```text
-Read and execute START_HERE.md.
+Do not ask the user to choose Lite/Full/Template/Director modes.
 
-ADAPT framework path:
-<path to ADAPT_FRAMEWORK>
-
-Project folder path:
-<path to empty project folder>
-
-ADAPT instance path:
-<path to external ADAPT instance>
-
-Project classification:
-NEW_PROJECT
-
-Initialization mode:
-ADAPT_LITE
-
-Source truth document:
-<path to project requirements document>
-
-Promote source truth:
-YES
+Do not block scaffolding because technology stack is missing.
 
 Do not create application source code.
-Do not finalize technology stack.
-```
 
----
+Do not mutate project source files.
 
-# 16. How to Recover an Existing ADAPT Instance
+Do not create real person-owned workcells unless explicit onboarding commands are provided.
 
-Use:
+After scaffolding, stop and report.
 
-```text
-Read and execute START_HERE.md.
-
-ADAPT framework path:
-<path to ADAPT_FRAMEWORK>
-
-Project folder path:
-<path to project folder>
-
-ADAPT instance path:
-<path to existing ADAPT instance>
-
-Initialization mode:
-RECOVER_EXISTING_ADAPT
-
-Do not mutate project source code.
-```
-
-Recovery must start from:
-
-```text
-PROJECT_CONTROL_PLANE.md
-ACTIVE_HANDOFFS
-GAP_REGISTER.md
-BLOCKER_REGISTER.md
-LAST_CONTEXT_DELTA
-```
-
----
-
-# 17. Final Rule
-
-If uncertain, do not guess.
-
-Classify the uncertainty as one of:
-
-```text
-OPEN_QUESTION
-GAP
-BLOCKER
-NEEDS_APPROVAL
-NEEDS_CONTEXT
-NEEDS_ONBOARDING
-NEEDS_PLANNING
-```
-
-Then stop or ask the user.
-
-ADAPT must be safe before it is fast.
+The next command should be: Run Director intake.
