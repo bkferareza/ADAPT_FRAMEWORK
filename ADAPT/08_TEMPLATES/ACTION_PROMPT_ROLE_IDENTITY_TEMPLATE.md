@@ -1,12 +1,12 @@
-# ACTION_PROMPT_<ROLE>_<IDENTITY>
+# ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}
 
 ## Purpose
 
-This is the workcell-scoped action prompt for `<WORKCELL_ID>`.
+This is the workcell-scoped action prompt for `{{WORKCELL_ID}}`.
 
 Run this prompt using:
 
-`Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md`
+`Read and Execute ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md`
 
 This file binds the AI runtime to exactly one workcell identity.
 
@@ -16,13 +16,13 @@ DO NOT REMOVE OR WEAKEN THIS SECTION.
 
 Required fields:
 
-* ActiveWorkcell: `<WORKCELL_ID>`
-* HumanOwner: `<IDENTITY>`
-* Role: `<ROLE>`
-* WorkcellType: `<WORKCELL_TYPE>`
-* Authority: `<ROLE_AUTHORITY>`
-* MutationAuthority: `<MUTATION_AUTHORITY>`
-* QAIndependenceStatus: `<QA_INDEPENDENCE_STATUS or N/A>`
+* ActiveWorkcell: `{{WORKCELL_ID}}`
+* HumanOwner: `{{IDENTITY}}`
+* Role: `{{ROLE}}`
+* WorkcellType: `{{WORKCELL_TYPE}}`
+* Authority: `{{ROLE_AUTHORITY}}`
+* MutationAuthority: `{{MUTATION_AUTHORITY}}`
+* QAIndependenceStatus: `{{QA_INDEPENDENCE_STATUS}}`
 * SourceTruthRequired: YES
 * ActiveHandoffRequired: YES, except for explicitly allowed onboarding/recovery actions
 * ContextPackRequired: YES, except for explicitly allowed recovery/context-generation actions

@@ -2,15 +2,15 @@
 
 ## Workcell Binding
 
-* Workcell: `<WORKCELL_ID>`
-* Role: `<ROLE>`
-* Human owner: `<IDENTITY>`
+* Workcell: `{{WORKCELL_ID}}`
+* Role: `{{ROLE}}`
+* Human owner: `{{IDENTITY}}`
 
 ## Entries
 
 | Date | Request ID | Decision | Applied by | Files changed | Effective workflow status | Evidence |
 |---|---|---|---|---|---|---|
-| `<DATE>` | `<WORKFLOW_CHANGE_REQUEST_ID>` | `<APPROVED/REJECTED/RESET>` | `<IDENTITY>` | `<FILES or NONE>` | `<ACTIVE/BLOCKED/UNCHANGED>` | `<REFERENCE>` |
+| `{{DATE}}` | `{{WORKFLOW_CHANGE_REQUEST_ID}}` | `{{APPROVED/REJECTED/RESET}}` | `{{IDENTITY}}` | `{{FILES or NONE}}` | `{{ACTIVE/BLOCKED/UNCHANGED}}` | `{{REFERENCE}}` |
 
 ## Rules
 

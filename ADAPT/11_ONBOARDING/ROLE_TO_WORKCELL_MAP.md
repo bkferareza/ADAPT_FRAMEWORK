@@ -24,11 +24,11 @@
 
 ## Workcell ID Pattern
 
-`<ROLE>_<IDENTITY>`
+`{{ROLE}}_{{IDENTITY}}`
 
 ## Action Prompt Pattern
 
-`ACTION_PROMPT_<ROLE>_<IDENTITY>.md`
+`ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md`
 
 ## Status
 

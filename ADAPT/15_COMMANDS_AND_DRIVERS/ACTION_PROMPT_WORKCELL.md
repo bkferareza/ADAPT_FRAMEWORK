@@ -8,17 +8,17 @@ This driver governs creation, selection, and execution of workcell-scoped prompt
 
 Individual lane execution must use:
 
-`Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md`
+`Read and Execute ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md`
 
-`Read and Execute <IDENTITY>` is invalid because one human may own multiple workcells.
+`Read and Execute {{IDENTITY}}` is invalid because one human may own multiple workcells.
 
 ## Onboarding Generation
 
-For `Onboard <Name> as <Role>`:
+For `Onboard {{IDENTITY}} as {{ROLE}}`:
 
 1. Apply `ONBOARDING_RULES.md`.
 2. Resolve the canonical role through `ROLE_TO_WORKCELL_MAP.md`.
-3. Derive `<IDENTITY>` and `<WORKCELL_ID>`.
+3. Derive `{{IDENTITY}}` and `{{WORKCELL_ID}}`.
 4. Instantiate `ACTION_PROMPT_ROLE_IDENTITY_TEMPLATE.md`.
 5. Instantiate the exact role blueprint as `DEFAULT_AGENT_BLUEPRINT.md`.
 6. Instantiate workflow customization, effective workflow, guardrail binding, request, and log files.
@@ -41,9 +41,9 @@ Any mismatch stops execution.
 
 Owner preferences may change only through:
 
-1. `Request workflow customization for <WORKCELL_ID>`
-2. `Review workflow customization for <WORKCELL_ID>`
-3. `Apply approved workflow customization for <WORKCELL_ID>` or `Reject workflow customization for <WORKCELL_ID>`
+1. `Request workflow customization for {{WORKCELL_ID}}`
+2. `Review workflow customization for {{WORKCELL_ID}}`
+3. `Apply approved workflow customization for {{WORKCELL_ID}}` or `Reject workflow customization for {{WORKCELL_ID}}`
 4. recompute `EFFECTIVE_WORKFLOW.md`
 5. append `WORKFLOW_CHANGE_LOG.md`
 

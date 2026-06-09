@@ -7,7 +7,7 @@ Stop immediately if:
 * action prompt identity does not match the workcell
 * human identity is provided but workcell identity is missing
 * one human owns multiple workcells and the requested active workcell is ambiguous
-* `ACTION_PROMPT_<ROLE>_<IDENTITY>.md` attempts to execute outside its role
+* `ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md` attempts to execute outside its role
 * workflow customization weakens guardrails
 * effective workflow cannot be resolved
 * protected ADAPT binding is missing, changed, weakened, or contradicted

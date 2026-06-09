@@ -2,7 +2,7 @@
 
 ## Command: Read And Execute Workcell Action Prompt
 
-Syntax: `Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md`
+Syntax: `Read and Execute ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md`
 
 Required authority: Human invocation plus valid workcell authority, active handoff, and mutation permission.
 
@@ -14,7 +14,7 @@ Stop conditions: identity/role mismatch, ambiguous workcell, wrong handoff/conte
 
 ## Command: Request Workflow Customization
 
-Syntax: `Request workflow customization for <WORKCELL_ID>`
+Syntax: `Request workflow customization for {{WORKCELL_ID}}`
 
 Required authority: Workcell owner or Director.
 
@@ -26,7 +26,7 @@ Stop conditions: missing/ambiguous workcell, request changes protected binding, 
 
 ## Command: Review Workflow Customization
 
-Syntax: `Review workflow customization for <WORKCELL_ID>`
+Syntax: `Review workflow customization for {{WORKCELL_ID}}`
 
 Required authority: Director or delegated Guardrail reviewer who is not self-approving a protected behavior change.
 
@@ -38,7 +38,7 @@ Stop conditions: missing request, reviewer lacks authority, impact cannot be det
 
 ## Command: Apply Approved Workflow Customization
 
-Syntax: `Apply approved workflow customization for <WORKCELL_ID>`
+Syntax: `Apply approved workflow customization for {{WORKCELL_ID}}`
 
 Required authority: Workcell owner, Director, or delegated Onboarding/Guardrail operator acting on an approved request.
 
@@ -50,7 +50,7 @@ Stop conditions: request is not approved, protected section would change, valida
 
 ## Command: Reject Workflow Customization
 
-Syntax: `Reject workflow customization for <WORKCELL_ID>`
+Syntax: `Reject workflow customization for {{WORKCELL_ID}}`
 
 Required authority: Director or delegated Guardrail reviewer.
 
@@ -62,7 +62,7 @@ Stop conditions: missing request, ambiguous workcell, or reviewer lacks authorit
 
 ## Command: Show Effective Workflow
 
-Syntax: `Show effective workflow for <WORKCELL_ID>`
+Syntax: `Show effective workflow for {{WORKCELL_ID}}`
 
 Required authority: Workcell owner, Director, assigned reviewer, or authorized observer.
 
@@ -86,7 +86,7 @@ Stop conditions: active workcell is missing, reset approval is missing, default 
 
 ## Command: Onboard Workcell
 
-Syntax: `Onboard <Name> as <Role>`
+Syntax: `Onboard {{IDENTITY}} as {{ROLE}}`
 
 Required authority: Director or delegated Onboarding authority.
 

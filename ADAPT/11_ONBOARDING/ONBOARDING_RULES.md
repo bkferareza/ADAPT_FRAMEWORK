@@ -6,7 +6,7 @@ Onboarding converts an approved human/role request into one real, identity-bound
 
 ## Accepted Command
 
-`Onboard <Name> as <Role>`
+`Onboard {{IDENTITY}} as {{ROLE}}`
 
 The command requires Director or delegated Onboarding authority. It must identify one supported role from `ROLE_TO_WORKCELL_MAP.md`.
 
@@ -14,14 +14,14 @@ The command requires Director or delegated Onboarding authority. It must identif
 
 Derive values only from the current approved onboarding inputs:
 
-* `<ROLE>`: canonical role key from `ROLE_TO_WORKCELL_MAP.md`.
-* `<IDENTITY>`: filename-safe uppercase identity key derived from `<Name>`.
-* `<WORKCELL_ID>`: `<ROLE>_<IDENTITY>`.
-* Action prompt filename: `ACTION_PROMPT_<ROLE>_<IDENTITY>.md`.
+* `{{ROLE}}`: canonical role key from `ROLE_TO_WORKCELL_MAP.md`.
+* `{{IDENTITY}}`: filename-safe uppercase identity key derived from the approved human name.
+* `{{WORKCELL_ID}}`: `{{ROLE}}_{{IDENTITY}}`.
+* Action prompt filename: `ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md`.
 
 Replace spaces and unsupported filename characters with `_`. Preserve the human-readable name inside `WORKCELL_IDENTITY.md`. If normalization produces an empty, duplicate, or ambiguous identity, stop onboarding.
 
-One human may own multiple workcells. Every workcell must have a distinct `<WORKCELL_ID>` and action prompt.
+One human may own multiple workcells. Every workcell must have a distinct `{{WORKCELL_ID}}` and action prompt.
 
 ## Required Inputs
 
@@ -39,15 +39,15 @@ Unknown authority must not be guessed.
 
 Select exactly one source:
 
-`ADAPT/08_TEMPLATES/ROLE_AGENT_BLUEPRINTS/<ROLE>_AGENT_BLUEPRINT.md`
+`ADAPT/08_TEMPLATES/ROLE_AGENT_BLUEPRINTS/{{ROLE}}_AGENT_BLUEPRINT.md`
 
 Instantiate it as `DEFAULT_AGENT_BLUEPRINT.md`. If the exact role blueprint is missing, stop and create a role-blueprint gap.
 
 ## Required Workcell Files
 
-Create these files inside `ADAPT/03_WORKCELLS/<WORKCELL_ID>/`:
+Create these files inside `ADAPT/03_WORKCELLS/{{WORKCELL_ID}}/`:
 
-* `ACTION_PROMPT_<ROLE>_<IDENTITY>.md`
+* `ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md`
 * `WORKCELL_IDENTITY.md`
 * `SCOPE_CONTRACT.md`
 * `DEFAULT_AGENT_BLUEPRINT.md`
@@ -68,7 +68,7 @@ Use current reusable templates, never archived output.
 ## Instantiation Procedure
 
 1. Validate approving authority and canonical role.
-2. Derive `<IDENTITY>`, `<WORKCELL_ID>`, and the action prompt filename.
+2. Derive `{{IDENTITY}}`, `{{WORKCELL_ID}}`, and the action prompt filename.
 3. Reject duplicate or ambiguous workcell identity.
 4. Load the exact role blueprint.
 5. Create the workcell folder and required files.
@@ -101,7 +101,7 @@ The report must list:
 
 It must tell the user:
 
-`To execute this lane, run: Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md`
+`To execute this lane, run: Read and Execute ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md`
 
 ## Stop Conditions
 

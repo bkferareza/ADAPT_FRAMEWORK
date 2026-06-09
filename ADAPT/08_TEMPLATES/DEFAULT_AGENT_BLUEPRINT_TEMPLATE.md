@@ -2,11 +2,11 @@
 
 ## Workcell Binding
 
-* Workcell: `<WORKCELL_ID>`
-* Role: `<ROLE>`
-* Human owner: `<IDENTITY>`
-* Blueprint source: `ROLE_AGENT_BLUEPRINTS/<ROLE>_AGENT_BLUEPRINT.md`
-* Blueprint version: `<BLUEPRINT_VERSION>`
+* Workcell: `{{WORKCELL_ID}}`
+* Role: `{{ROLE}}`
+* Human owner: `{{IDENTITY}}`
+* Blueprint source: `ROLE_AGENT_BLUEPRINTS/{{ROLE}}_AGENT_BLUEPRINT.md`
+* Blueprint version: `{{BLUEPRINT_VERSION}}`
 
 ## Resolution Rule
 
@@ -16,15 +16,15 @@ If no exact role blueprint exists, stop onboarding and create a role-blueprint g
 
 ## Default Agents
 
-`<COPY_ROLE_SPECIFIC_DEFAULT_AGENTS_HERE>`
+`{{COPY_ROLE_SPECIFIC_DEFAULT_AGENTS_HERE}}`
 
 ## Default Sequence
 
-`<COPY_ROLE_SPECIFIC_DEFAULT_SEQUENCE_HERE>`
+`{{COPY_ROLE_SPECIFIC_DEFAULT_SEQUENCE_HERE}}`
 
 ## Role Boundaries
 
-`<COPY_ROLE_SPECIFIC_BOUNDARIES_HERE>`
+`{{COPY_ROLE_SPECIFIC_BOUNDARIES_HERE}}`
 
 ## Required Outputs
 

@@ -2,10 +2,10 @@
 
 ## Workcell Binding
 
-* Workcell: `<WORKCELL_ID>`
-* Role: `<ROLE>`
-* Human owner: `<IDENTITY>`
-* Binding version: `<GUARDRAIL_BINDING_VERSION>`
+* Workcell: `{{WORKCELL_ID}}`
+* Role: `{{ROLE}}`
+* Human owner: `{{IDENTITY}}`
+* Binding version: `{{GUARDRAIL_BINDING_VERSION}}`
 
 ## Protected Rules
 

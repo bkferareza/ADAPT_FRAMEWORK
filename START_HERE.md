@@ -59,16 +59,16 @@ Rules:
 
 START_HERE scaffolds the full external ADAPT instance. Workcells are not real until they are explicitly onboarded.
 
-For every approved `Onboard <Name> as <Role>` command, onboarding must create:
+For every approved `Onboard {{IDENTITY}} as {{ROLE}}` command, onboarding must create:
 
 ```text
-ACTION_PROMPT_<ROLE>_<IDENTITY>.md
+ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md
 ```
 
 Individual lane execution must use:
 
 ```text
-Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md
+Read and Execute ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md
 ```
 
 The workcell action prompt binds the AI runtime to one role and one exact workcell identity. A human identity alone is not a valid lane selector because one human may own multiple workcells.
@@ -272,38 +272,38 @@ Missing technical details must not block scaffolding.
 Always create the full external ADAPT instance scaffold:
 
 ```text
-<ADAPT_INSTANCE>/ADAPT/00_FRAMEWORK/
-<ADAPT_INSTANCE>/ADAPT/01_SOURCE_TRUTH/
-<ADAPT_INSTANCE>/ADAPT/02_DIRECTOR_LANE/
-<ADAPT_INSTANCE>/ADAPT/03_WORKCELLS/
-<ADAPT_INSTANCE>/ADAPT/04_INTEGRATION/
-<ADAPT_INSTANCE>/ADAPT/05_VALIDATION/
-<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/
-<ADAPT_INSTANCE>/ADAPT/07_GUARDRAILS/
-<ADAPT_INSTANCE>/ADAPT/08_TEMPLATES/
-<ADAPT_INSTANCE>/ADAPT/09_CHALLENGE_LANE/
-<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/
-<ADAPT_INSTANCE>/ADAPT/11_ONBOARDING/
-<ADAPT_INSTANCE>/ADAPT/12_JANITOR/
-<ADAPT_INSTANCE>/ADAPT/13_PLANNING/
-<ADAPT_INSTANCE>/ADAPT/14_MEMORY_BANK/
-<ADAPT_INSTANCE>/ADAPT/15_COMMANDS_AND_DRIVERS/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/00_FRAMEWORK/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/01_SOURCE_TRUTH/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/02_DIRECTOR_LANE/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/03_WORKCELLS/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/04_INTEGRATION/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/05_VALIDATION/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/06_HANDOFFS/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/07_GUARDRAILS/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/08_TEMPLATES/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/09_CHALLENGE_LANE/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/10_CONTEXT_ECONOMY/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/11_ONBOARDING/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/12_JANITOR/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/13_PLANNING/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/14_MEMORY_BANK/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/15_COMMANDS_AND_DRIVERS/
 ```
 
 Also create handoff subfolders:
 
 ```text
-<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/ACTIVE/
-<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/CONSUMED/
-<ADAPT_INSTANCE>/ADAPT/06_HANDOFFS/ARCHIVE/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/06_HANDOFFS/ACTIVE/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/06_HANDOFFS/CONSUMED/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/06_HANDOFFS/ARCHIVE/
 ```
 
 Also create context subfolders:
 
 ```text
-<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_PACKS/
-<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_DELTAS/
-<ADAPT_INSTANCE>/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_SUMMARIES/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_PACKS/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_DELTAS/
+{{ADAPT_INSTANCE_PATH}}/ADAPT/10_CONTEXT_ECONOMY/CONTEXT_SUMMARIES/
 ```
 
 ---
@@ -363,9 +363,9 @@ The README must say:
 
 ```text
 No real person-owned workcells have been onboarded yet.
-Use: Onboard <Name> as <Role>.
-Onboarding creates ACTION_PROMPT_<ROLE>_<IDENTITY>.md.
-Execute a lane with: Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md.
+Use: Onboard {{IDENTITY}} as {{ROLE}}.
+Onboarding creates ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md.
+Execute a lane with: Read and Execute ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md.
 ```
 
 Do not create real workcells unless explicit onboarding commands were provided.
@@ -497,7 +497,7 @@ ONBOARDING_REPORTS.md
 `ONBOARDING_RULES.md` must require every onboarded workcell folder to contain:
 
 ```text
-ACTION_PROMPT_<ROLE>_<IDENTITY>.md
+ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md
 WORKCELL_IDENTITY.md
 SCOPE_CONTRACT.md
 DEFAULT_AGENT_BLUEPRINT.md
@@ -517,7 +517,7 @@ CONTEXT_DELTAS.md
 The onboarding report must list the workcell-scoped action prompt path and state:
 
 ```text
-To execute this lane, run: Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md
+To execute this lane, run: Read and Execute ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md
 ```
 
 ### 12_JANITOR
@@ -678,19 +678,19 @@ After execution, produce:
 
 ## Framework Source Path
 
-<path>
+{{ADAPT_FRAMEWORK_PATH}}
 
 ## Project Folder Path
 
-<path>
+{{PROJECT_FOLDER_PATH}}
 
 ## ADAPT Instance Path
 
-<path>
+{{ADAPT_INSTANCE_PATH}}
 
 ## Project Document Path
 
-<path>
+{{PROJECT_DOCUMENT_PATH}}
 
 ## Initialization Behavior
 
@@ -698,7 +698,7 @@ FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD
 
 ## Source Truth Status
 
-<SOURCE_TRUTH_V0.1 | DRAFT_SOURCE_TRUTH_MAP>
+{{SOURCE_TRUTH_V0.1 | DRAFT_SOURCE_TRUTH_MAP}}
 
 ## Inferred Project Shape
 
@@ -712,15 +712,15 @@ FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD
 
 ## ADAPT Folders Created
 
-<list>
+{{ADAPT_FOLDERS_CREATED}}
 
 ## ADAPT Files Created
 
-<list>
+{{ADAPT_FILES_CREATED}}
 
 ## Files Modified
 
-<list>
+{{FILES_MODIFIED}}
 
 ## Project Files Touched
 
@@ -728,15 +728,15 @@ Must be NONE unless explicitly approved.
 
 ## Open Questions Recorded
 
-<list>
+{{OPEN_QUESTIONS_RECORDED}}
 
 ## Gaps Created
 
-<list>
+{{GAPS_CREATED}}
 
 ## Blockers Created
 
-<list>
+{{BLOCKERS_CREATED}}
 
 ## Next Recommended Command
 
@@ -757,7 +757,7 @@ Before reporting success, verify:
 - File creation approval was `YES`.
 - Project source mutation approval was treated as `NO` by default.
 - The ADAPT instance path is outside the project folder unless explicitly instructed otherwise.
-- All required ADAPT folders exist under `<ADAPT_INSTANCE>/ADAPT/`.
+- All required ADAPT folders exist under `{{ADAPT_INSTANCE_PATH}}/ADAPT/`.
 - All required handoff and context subfolders exist.
 - All required starter artifacts exist or are explicitly recorded as gaps.
 - Source truth status is recorded as either `SOURCE_TRUTH_V0.1` or `DRAFT_SOURCE_TRUTH_MAP`.
@@ -769,7 +769,7 @@ Before reporting success, verify:
 - No database schema, pipeline file, deployment file, or technology stack finalization was created.
 - No real person-owned workcells were created unless explicit onboarding commands were provided.
 - The full scaffold includes all workcell action-prompt, workflow, guardrail-binding, workflow-governance, and role-agent blueprint templates.
-- Every explicitly onboarded workcell has `ACTION_PROMPT_<ROLE>_<IDENTITY>.md` and all required workflow files.
+- Every explicitly onboarded workcell has `ACTION_PROMPT_{{ROLE}}_{{IDENTITY}}.md` and all required workflow files.
 - Every explicitly onboarded workcell uses the exact role-specific default agent blueprint.
 - Every effective workflow is validated against source truth authority, scope, context, evidence, mutation, contract, QA independence, approval, and handoff.
 - Human-only execution is rejected when an exact workcell identity is absent or ambiguous.
