@@ -6,44 +6,155 @@ This file defines how an AI tool scaffolds a full external ADAPT instance from a
 
 ## Operating Model
 
-* ADAPT_FRAMEWORK is read-only framework source.
-* PROJECT_FOLDER is the actual project folder.
-* ADAPT_INSTANCE is the project-specific ADAPT governance output.
-* START_HERE.md is the launcher.
+* `ADAPT_FRAMEWORK` is read-only framework source.
+* `PROJECT_FOLDER` is the actual project folder.
+* `ADAPT_INSTANCE` is the project-specific ADAPT governance output.
+* `START_HERE.md` is the launcher.
 * This file is the scaffold workflow agent.
-* SCAFFOLD_OUTPUT_CONTRACT.md defines required generated files.
-* WORKCELL_ONBOARDING_CONTRACT.md defines onboarding behavior.
+* `SCAFFOLD_OUTPUT_CONTRACT.md` defines required generated files.
+* `WORKCELL_ONBOARDING_CONTRACT.md` defines onboarding behavior.
 
 Do not depend on tool-specific skills or product-specific agent features. Execute this contract using the file and document capabilities available in the current environment.
 
+## Direct Scaffold Execution Rule
+
+`Read and Execute START_HERE.md` is an execution command.
+
+If the scaffold can safely resolve:
+
+* `{{ADAPT_FRAMEWORK_PATH}}`
+* `{{PROJECT_FOLDER_PATH}}`
+* `{{ADAPT_INSTANCE_PATH}}`
+* `{{PROJECT_DOCUMENT_PATH}}`
+
+then it must proceed directly with:
+
+`FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD`
+
+Do not ask for another approval.
+Do not ask the user to reply "Approved."
+Do not convert scaffolding into a wizard.
+
+Creating folders and files inside `{{ADAPT_INSTANCE_PATH}}` is part of scaffolding and does not require separate file-creation approval.
+
+## No Wizard Rule
+
+ADAPT scaffolding is not an installation wizard.
+
+The command `Read and Execute START_HERE.md` is sufficient authorization to scaffold the external ADAPT instance.
+
+The AI must not ask for a second approval before creating scaffold files inside `{{ADAPT_INSTANCE_PATH}}`.
+
+The AI should infer safe defaults, proceed with scaffolding, record unresolved details as open questions/gaps, and stop with an initialization report.
+
+Approval-style prompts are allowed only for unsafe conditions such as destructive overwrite, ambiguous paths, project source mutation, or unreadable/missing project documents.
+
 ## Required Inputs
 
-* {{ADAPT_FRAMEWORK_PATH}}
-* {{PROJECT_FOLDER_PATH}}
-* {{ADAPT_INSTANCE_PATH}}
-* {{PROJECT_DOCUMENT_PATH}}
-* File creation approval
-* Project source mutation approval
+Resolve these values before scaffolding:
 
-If a required path or approval is missing, ask for it before scaffolding. File creation requires explicit approval.
+* `{{ADAPT_FRAMEWORK_PATH}}`
+* `{{PROJECT_FOLDER_PATH}}`
+* `{{ADAPT_INSTANCE_PATH}}`
+* `{{PROJECT_DOCUMENT_PATH}}`
+
+Project source mutation defaults to:
+
+`NO`
+
+The launcher command supplies scaffold file-creation authorization for `{{ADAPT_INSTANCE_PATH}}`. File creation approval is not a separate required input.
+
+## Path Resolution
+
+Infer safe defaults before asking questions.
+
+### ADAPT Framework Path
+
+If `{{ADAPT_FRAMEWORK_PATH}}` is not provided, use the current directory containing `START_HERE.md`.
+
+### Project Document Path
+
+If `{{PROJECT_DOCUMENT_PATH}}` is not provided, search the ADAPT framework root for likely project documents with these extensions:
+
+* `.docx`
+* `.md`
+* `.txt`
+* `.pdf`
+
+Prefer names that indicate project or business requirements, including:
+
+* `Project`
+* `Business`
+* `Requirements`
+* `Proposal`
+* `Case`
+* a product-specific or project-specific name
+
+Exclude ADAPT framework contracts, launcher files, templates, guardrails, command drivers, framework reports, and other framework documentation.
+
+If exactly one likely project document is found, use it.
+
+If multiple likely documents are found, choose the most project-specific document only when the choice is obvious. If it is not obvious, stop and ask only for `{{PROJECT_DOCUMENT_PATH}}`.
+
+The project name should be inferred from the resolved project document when its title or contents provide a reliable name. Do not invent a project name.
+
+### Project Folder Path
+
+If `{{PROJECT_FOLDER_PATH}}` is not provided, create or use a sibling folder beside the ADAPT framework folder:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/{{PROJECT_NAME}}_PROJECT`
+
+If the project name cannot yet be inferred, use:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/PROJECT_FOLDER`
+
+Do not create the project folder inside `ADAPT_FRAMEWORK` unless it already exists there and the user explicitly provided that path.
+
+### ADAPT Instance Path
+
+If `{{ADAPT_INSTANCE_PATH}}` is not provided, create or use a sibling folder beside the ADAPT framework folder:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/{{PROJECT_NAME}}_ADAPT_INSTANCE`
+
+If the project name cannot yet be inferred, use:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/ADAPT_INSTANCE`
+
+Do not create the ADAPT instance inside `PROJECT_FOLDER`.
+Do not create the ADAPT instance inside `ADAPT_FRAMEWORK` unless the user explicitly provided that path.
+
+## ADAPT Instance Target Handling
+
+Creating the target directory and scaffold files is normal execution.
+
+* If `{{ADAPT_INSTANCE_PATH}}` does not exist, create it and scaffold the full ADAPT instance.
+* If it exists and is empty, scaffold into it.
+* If it already contains an ADAPT instance, recover existing state and do not overwrite blindly.
+* If it contains unrelated files, stop and ask for a different ADAPT instance path or whether to create a subfolder.
+
+Recovery must preserve existing ADAPT state. Any destructive overwrite, deletion, replacement, or archival requires an explicit decision before proceeding.
 
 ## Workflow
 
-1. Validate required paths.
-2. Read START_HERE.md.
-3. Read SCAFFOLD_WORKFLOW_AGENT.md.
-4. Read SCAFFOLD_OUTPUT_CONTRACT.md.
-5. Read WORKCELL_ONBOARDING_CONTRACT.md.
-6. Read the project document.
-7. Extract source truth.
-8. Infer project shape.
-9. Scaffold full external ADAPT instance.
-10. Populate starter artifacts.
-11. Record missing details as open questions/gaps.
-12. Do not create real workcells unless onboarding commands were provided.
-13. Do not mutate project source code unless explicitly approved for shell scaffolding.
-14. Produce ADAPT Startup / Initialization Report.
-15. Stop.
+1. Locate `START_HERE.md` and resolve `{{ADAPT_FRAMEWORK_PATH}}`.
+2. Infer `{{PROJECT_DOCUMENT_PATH}}`, `{{PROJECT_NAME}}`, `{{PROJECT_FOLDER_PATH}}`, and `{{ADAPT_INSTANCE_PATH}}` using the path resolution rules.
+3. Validate that the resolved paths satisfy the placement and target-folder safety rules.
+4. Read `START_HERE.md`.
+5. Read `SCAFFOLD_WORKFLOW_AGENT.md`.
+6. Read `SCAFFOLD_OUTPUT_CONTRACT.md`.
+7. Read `WORKCELL_ONBOARDING_CONTRACT.md`.
+8. Read the resolved project document.
+9. Extract source truth.
+10. Infer project shape.
+11. Create or recover the full external ADAPT instance.
+12. Populate starter artifacts required by the scaffold output contract.
+13. Record missing details as open questions and gaps.
+14. Do not create real workcells unless onboarding commands were provided.
+15. Keep project source mutation at `NO` unless the user explicitly requested a clear project shell or source mutation scope.
+16. Produce the ADAPT Startup / Initialization Report.
+17. Stop.
+
+Do not pause between path resolution and scaffold creation merely to request approval.
 
 ## Source Truth Extraction
 
@@ -69,21 +180,29 @@ Do not invent missing content.
 
 Missing language, framework, database, auth, deployment, team names, and first milestone must not block scaffolding.
 
-Record them in:
+Record unresolved details in:
 
-* OPEN_QUESTIONS.md
-* GAP_REGISTER.md
+* `OPEN_QUESTIONS.md`
+* `GAP_REGISTER.md`
 
 Use:
 
-* GAP-T10 Decision Gap
-* GAP-T11 Context Gap
+* `GAP-T10 Decision Gap`
+* `GAP-T11 Context Gap`
 
-## Project Shell Policy
+## Project Source Mutation Policy
 
-Project shell creation is allowed only if project source mutation approval is YES.
+Project source mutation defaults to `NO`.
 
-If approved, shell creation must be limited to:
+If the user did not explicitly request project shell creation or project source mutation:
+
+* do not modify `{{PROJECT_FOLDER_PATH}}`
+* write normal scaffold output only to `{{ADAPT_INSTANCE_PATH}}`
+* report project files touched as none
+
+Project shell creation is allowed only when project source mutation is explicitly authorized as `YES` and its scope is clear.
+
+If authorized, shell creation must be limited to:
 
 * solution shell
 * frontend shell
@@ -102,11 +221,29 @@ Forbidden:
 * database persistence
 * payment/chat/GPS/live-map implementation
 
-Do not edit existing project source as part of shell scaffolding unless the approval explicitly covers those files.
+Do not edit existing project source unless the explicit authorization covers those files.
+
+## Valid Stop Conditions
+
+Stop only when safe execution is not possible:
+
+* `START_HERE.md` cannot be found.
+* `SCAFFOLD_WORKFLOW_AGENT.md`, `SCAFFOLD_OUTPUT_CONTRACT.md`, or `WORKCELL_ONBOARDING_CONTRACT.md` cannot be found.
+* No project document can be resolved.
+* Multiple project document candidates exist and no obvious choice exists.
+* The ADAPT instance path points inside the project folder without an explicit user-provided path.
+* The ADAPT instance path points inside the framework folder without an explicit user-provided path.
+* The ADAPT instance target contains unrelated files.
+* Project source mutation is requested but its scope is unclear.
+* Destructive overwrite, deletion, or archival is required.
+* The project document cannot be read.
+* Required scaffold output cannot be written.
+
+Do not stop merely to ask for approval to create scaffold files inside `{{ADAPT_INSTANCE_PATH}}`.
 
 ## Required Final Report
 
-The scaffold must output:
+After scaffolding, output:
 
 # ADAPT Startup / Initialization Report
 
@@ -116,11 +253,10 @@ Include:
 * project folder path
 * ADAPT instance path
 * project document path
-* initialization behavior
+* inferred project name
 * source truth status
-* inferred project shape
-* ADAPT folders created
-* ADAPT files created
+* folders created
+* files created
 * project files touched
 * open questions recorded
 * gaps created
@@ -129,8 +265,9 @@ Include:
 * status
 
 Next recommended command:
-Run Director intake.
+
+`Run Director intake`
 
 ## Stop Rule
 
-After scaffold initialization, stop.
+After scaffold initialization and the final report, stop.

@@ -1,53 +1,204 @@
-# START HERE — ADAPT Framework Launcher
+# START HERE - ADAPT Framework Launcher
 
 When an AI tool is told:
 
-Read and Execute START_HERE.md
+`Read and Execute START_HERE.md`
 
-it must start here.
+it must start here and execute the scaffold workflow.
 
-This repository is ADAPT_FRAMEWORK_SOURCE.
+This repository is `ADAPT_FRAMEWORK_SOURCE`.
 
 Do not treat this repository as the project-specific ADAPT instance.
 
-Default folder model:
+## Default Folder Model
 
 ```text
 /workspace/
-├── ADAPT_FRAMEWORK/
-├── PROJECT_FOLDER/
-└── ADAPT_INSTANCE/
+|-- ADAPT_FRAMEWORK/
+|-- PROJECT_FOLDER/
+`-- ADAPT_INSTANCE/
 ```
+
+The project folder and ADAPT instance should normally be siblings of the ADAPT framework folder.
 
 Default behavior:
 
-FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD
+`FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD`
 
-To execute, read these files in order:
+## Direct Scaffold Execution Rule
 
-1. SCAFFOLD_WORKFLOW_AGENT.md
-2. SCAFFOLD_OUTPUT_CONTRACT.md
-3. WORKCELL_ONBOARDING_CONTRACT.md
+`Read and Execute START_HERE.md` is an execution command.
 
-Then scaffold the external ADAPT instance into {{ADAPT_INSTANCE_PATH}}.
+If the scaffold can safely resolve:
 
-Do not write project-specific ADAPT state into ADAPT_FRAMEWORK.
+* `{{ADAPT_FRAMEWORK_PATH}}`
+* `{{PROJECT_FOLDER_PATH}}`
+* `{{ADAPT_INSTANCE_PATH}}`
+* `{{PROJECT_DOCUMENT_PATH}}`
 
-Do not write ADAPT state into PROJECT_FOLDER by default.
+then it must proceed directly with:
 
-Do not mutate project source code unless explicitly approved for shell scaffolding.
+`FULL_EXTERNAL_ADAPT_INSTANCE_SCAFFOLD`
 
-If required startup paths are missing, ask for them.
+Do not ask for another approval.
+Do not ask the user to reply "Approved."
+Do not convert scaffolding into a wizard.
 
-Required startup inputs:
-- {{ADAPT_FRAMEWORK_PATH}}
-- {{PROJECT_FOLDER_PATH}}
-- {{ADAPT_INSTANCE_PATH}}
-- {{PROJECT_DOCUMENT_PATH}}
-- File creation approval
-- Project source mutation approval
+Creating folders and files inside `{{ADAPT_INSTANCE_PATH}}` is part of the authorized scaffold operation.
 
-After scaffold, stop and report.
+## No Wizard Rule
 
-Next recommended command after successful scaffold:
-Run Director intake.
+ADAPT scaffolding is not an installation wizard.
+
+The command `Read and Execute START_HERE.md` is sufficient authorization to scaffold the external ADAPT instance.
+
+The AI must not ask for a second approval before creating scaffold files inside `{{ADAPT_INSTANCE_PATH}}`.
+
+The AI should infer safe defaults, proceed with scaffolding, record unresolved details as open questions/gaps, and stop with an initialization report.
+
+Approval-style prompts are allowed only for unsafe conditions such as destructive overwrite, ambiguous paths, project source mutation, or unreadable/missing project documents.
+
+## Path Inference Rules
+
+Infer safe defaults before asking the user for paths.
+
+### ADAPT Framework Path
+
+If `{{ADAPT_FRAMEWORK_PATH}}` is not provided, use the current directory containing `START_HERE.md`.
+
+### Project Document Path
+
+If `{{PROJECT_DOCUMENT_PATH}}` is not provided, search the ADAPT framework root for likely project documents with these extensions:
+
+* `.docx`
+* `.md`
+* `.txt`
+* `.pdf`
+
+Prefer names that indicate project or business requirements, including:
+
+* `Project`
+* `Business`
+* `Requirements`
+* `Proposal`
+* `Case`
+* a product-specific or project-specific name
+
+Do not treat ADAPT framework contracts, launcher files, templates, guardrails, commands, reports, or other framework documentation as project documents.
+
+If exactly one likely project document is found, use it.
+
+If multiple likely documents are found, use the most project-specific document only when the choice is obvious. Otherwise, stop and ask only for `{{PROJECT_DOCUMENT_PATH}}`.
+
+### Project Folder Path
+
+If `{{PROJECT_FOLDER_PATH}}` is not provided, create or use a sibling folder beside the ADAPT framework folder.
+
+Use:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/{{PROJECT_NAME}}_PROJECT`
+
+If the project name cannot yet be inferred, use:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/PROJECT_FOLDER`
+
+Do not create the project folder inside `ADAPT_FRAMEWORK` unless it already exists there and the user explicitly provided that path.
+
+### ADAPT Instance Path
+
+If `{{ADAPT_INSTANCE_PATH}}` is not provided, create or use a sibling folder beside the ADAPT framework folder.
+
+Use:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/{{PROJECT_NAME}}_ADAPT_INSTANCE`
+
+If the project name cannot yet be inferred, use:
+
+`{{ADAPT_FRAMEWORK_PARENT}}/ADAPT_INSTANCE`
+
+Do not create the ADAPT instance inside `PROJECT_FOLDER`.
+Do not create the ADAPT instance inside `ADAPT_FRAMEWORK` unless the user explicitly provided that path.
+
+## Target Folder Handling
+
+If `{{ADAPT_INSTANCE_PATH}}` does not exist, create it and scaffold the full ADAPT instance.
+
+If it exists and is empty, scaffold into it.
+
+If it already contains an ADAPT instance, recover the existing state and do not overwrite blindly.
+
+If it contains unrelated files, stop and ask for a different ADAPT instance path or whether to create a subfolder.
+
+## Project Source Mutation Default
+
+Project source mutation defaults to:
+
+`NO`
+
+Unless the user explicitly requests project shell creation or project source mutation, do not modify `{{PROJECT_FOLDER_PATH}}`.
+
+Normal scaffold execution writes only to `{{ADAPT_INSTANCE_PATH}}`.
+
+Do not write project-specific ADAPT state into `ADAPT_FRAMEWORK`.
+Do not write ADAPT state into `PROJECT_FOLDER` by default.
+Do not create application source code as part of normal scaffolding.
+
+## Execution Order
+
+1. Resolve available paths and infer safe defaults.
+2. Read `START_HERE.md`.
+3. Read `SCAFFOLD_WORKFLOW_AGENT.md`.
+4. Read `SCAFFOLD_OUTPUT_CONTRACT.md`.
+5. Read `WORKCELL_ONBOARDING_CONTRACT.md`.
+6. Read the resolved project document.
+7. Create or recover the full external ADAPT instance at `{{ADAPT_INSTANCE_PATH}}`.
+8. Record unresolved details as open questions and gaps.
+9. Output the ADAPT Startup / Initialization Report.
+10. Stop.
+
+## Valid Stop Conditions
+
+Stop only when safe execution is not possible, including when:
+
+* `START_HERE.md` cannot be found.
+* Required scaffold contract files cannot be found.
+* No project document can be resolved.
+* Multiple project document candidates exist and no obvious choice exists.
+* The ADAPT instance path points inside the project folder without an explicit user-provided path.
+* The ADAPT instance path points inside the framework folder without an explicit user-provided path.
+* The ADAPT instance path contains unrelated files.
+* Project source mutation is requested but its scope is unclear.
+* Destructive overwrite, deletion, or archival is required.
+* The project document cannot be read.
+* Required scaffold output cannot be written.
+
+Do not stop merely to ask for scaffold approval.
+
+## Required Final Report
+
+After scaffolding, output:
+
+# ADAPT Startup / Initialization Report
+
+Include:
+
+* framework source path
+* project folder path
+* ADAPT instance path
+* project document path
+* inferred project name
+* source truth status
+* folders created
+* files created
+* project files touched
+* open questions recorded
+* gaps created
+* blockers created
+* next recommended command
+* status
+
+Next recommended command:
+
+`Run Director intake`
+
+After the report, stop.
