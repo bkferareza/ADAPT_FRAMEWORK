@@ -55,6 +55,30 @@ Rules:
 
 ---
 
+## Workcell Identity And Execution Model
+
+START_HERE scaffolds the full external ADAPT instance. Workcells are not real until they are explicitly onboarded.
+
+For every approved `Onboard <Name> as <Role>` command, onboarding must create:
+
+```text
+ACTION_PROMPT_<ROLE>_<IDENTITY>.md
+```
+
+Individual lane execution must use:
+
+```text
+Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md
+```
+
+The workcell action prompt binds the AI runtime to one role and one exact workcell identity. A human identity alone is not a valid lane selector because one human may own multiple workcells.
+
+Each onboarded workcell also receives a role-specific `DEFAULT_AGENT_BLUEPRINT.md`, editable `WORKFLOW_CUSTOMIZATION.md`, computed `EFFECTIVE_WORKFLOW.md`, protected `GUARDRAIL_BINDINGS.md`, and governed workflow request/change-log artifacts.
+
+Custom workflow changes must pass through ADAPT-governed workflow customization. Editable preferences cannot remove, weaken, or contradict protected ADAPT binding.
+
+---
+
 ## Required Startup Inputs
 
 Ask only for missing required paths or permissions.
@@ -141,9 +165,10 @@ When required inputs are present and file creation approval is `YES`, perform th
 10. Populate source truth starter artifacts.
 11. Populate Director Lane starter artifacts.
 12. Populate guardrails, templates, handoffs, context economy, onboarding, janitor, planning, commands/drivers, memory bank, integration, validation, and challenge folders.
-13. Record missing technical/project details as open questions or gaps.
-14. Emit the first recommended next command.
-15. Stop.
+13. If explicit onboarding commands were provided, create identity-bound workcells using current onboarding rules and role blueprints.
+14. Record missing technical/project details as open questions or gaps.
+15. Emit the first recommended next command.
+16. Stop.
 ```
 
 If file creation approval is missing or `NO`, do not create files. Report that initialization is blocked by missing file creation approval.
@@ -174,13 +199,25 @@ Read only the minimum necessary files first:
 
 ```text
 ADAPT/15_COMMANDS_AND_DRIVERS/ACTION_PROMPT_MASTER.md
+ADAPT/15_COMMANDS_AND_DRIVERS/ACTION_PROMPT_WORKCELL.md
 ADAPT/15_COMMANDS_AND_DRIVERS/COMMAND_REGISTRY.md
+ADAPT/15_COMMANDS_AND_DRIVERS/COMMAND_SYNTAX.md
 ADAPT/15_COMMANDS_AND_DRIVERS/COMMAND_ROUTING_MATRIX.md
 ADAPT/15_COMMANDS_AND_DRIVERS/CONTROL_PLANE_SCHEMA.md
 ADAPT/15_COMMANDS_AND_DRIVERS/STOP_RULES.md
 ADAPT/15_COMMANDS_AND_DRIVERS/MUTATION_PERMISSION_MATRIX.md
 ADAPT/15_COMMANDS_AND_DRIVERS/HUMAN_APPROVAL_GATES.md
 ADAPT/15_COMMANDS_AND_DRIVERS/CONTEXT_BUDGET_POLICY.md
+ADAPT/11_ONBOARDING/ONBOARDING_RULES.md
+ADAPT/11_ONBOARDING/ROLE_TO_WORKCELL_MAP.md
+ADAPT/08_TEMPLATES/ACTION_PROMPT_ROLE_IDENTITY_TEMPLATE.md
+ADAPT/08_TEMPLATES/DEFAULT_AGENT_BLUEPRINT_TEMPLATE.md
+ADAPT/08_TEMPLATES/WORKFLOW_CUSTOMIZATION_TEMPLATE.md
+ADAPT/08_TEMPLATES/EFFECTIVE_WORKFLOW_TEMPLATE.md
+ADAPT/08_TEMPLATES/GUARDRAIL_BINDINGS_TEMPLATE.md
+ADAPT/08_TEMPLATES/WORKFLOW_CHANGE_REQUEST_TEMPLATE.md
+ADAPT/08_TEMPLATES/WORKFLOW_CHANGE_LOG_TEMPLATE.md
+ADAPT/08_TEMPLATES/ROLE_AGENT_BLUEPRINTS/
 ```
 
 When scaffolding folders that depend on reusable content, copy existing framework files where available. If a required artifact is missing from the framework source, generate a conservative starter artifact with placeholders, explicit source references, and open gaps rather than inventing project facts.
@@ -327,6 +364,8 @@ The README must say:
 ```text
 No real person-owned workcells have been onboarded yet.
 Use: Onboard <Name> as <Role>.
+Onboarding creates ACTION_PROMPT_<ROLE>_<IDENTITY>.md.
+Execute a lane with: Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md.
 ```
 
 Do not create real workcells unless explicit onboarding commands were provided.
@@ -382,6 +421,13 @@ Copy or generate all reusable templates from the framework template source.
 Required template files include:
 
 ```text
+ACTION_PROMPT_ROLE_IDENTITY_TEMPLATE.md
+DEFAULT_AGENT_BLUEPRINT_TEMPLATE.md
+WORKFLOW_CUSTOMIZATION_TEMPLATE.md
+EFFECTIVE_WORKFLOW_TEMPLATE.md
+GUARDRAIL_BINDINGS_TEMPLATE.md
+WORKFLOW_CHANGE_REQUEST_TEMPLATE.md
+WORKFLOW_CHANGE_LOG_TEMPLATE.md
 WORKCELL_IDENTITY_TEMPLATE.md
 SCOPE_CONTRACT_TEMPLATE.md
 AGENT_TEAM_TEMPLATE.md
@@ -408,6 +454,20 @@ CHALLENGE_REPORT_TEMPLATE.md
 CYCLE_CONSOLIDATION_TEMPLATE.md
 ```
 
+Also copy or generate:
+
+```text
+ROLE_AGENT_BLUEPRINTS/DIRECTOR_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/INTEGRATOR_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/BACKEND_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/FRONTEND_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/QA_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/PLANNING_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/CONTEXT_STEWARD_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/JANITOR_AGENT_BLUEPRINT.md
+ROLE_AGENT_BLUEPRINTS/CHALLENGE_AGENT_BLUEPRINT.md
+```
+
 ### 09_CHALLENGE_LANE
 
 ```text
@@ -432,6 +492,32 @@ ONBOARDING_RULES.md
 ROLE_TO_WORKCELL_MAP.md
 ONBOARDING_REQUESTS.md
 ONBOARDING_REPORTS.md
+```
+
+`ONBOARDING_RULES.md` must require every onboarded workcell folder to contain:
+
+```text
+ACTION_PROMPT_<ROLE>_<IDENTITY>.md
+WORKCELL_IDENTITY.md
+SCOPE_CONTRACT.md
+DEFAULT_AGENT_BLUEPRINT.md
+WORKFLOW_CUSTOMIZATION.md
+EFFECTIVE_WORKFLOW.md
+GUARDRAIL_BINDINGS.md
+WORKFLOW_CHANGE_REQUESTS.md
+WORKFLOW_CHANGE_LOG.md
+ROADMAP.md
+TASK_REGISTER.md
+EVIDENCE_LOG.md
+HANDOFFS.md
+BLOCKERS.md
+CONTEXT_DELTAS.md
+```
+
+The onboarding report must list the workcell-scoped action prompt path and state:
+
+```text
+To execute this lane, run: Read and Execute ACTION_PROMPT_<ROLE>_<IDENTITY>.md
 ```
 
 ### 12_JANITOR
@@ -572,6 +658,10 @@ Use reusable framework content for:
 - janitor rules
 - planning rules
 - commands and drivers
+- role-specific default agent blueprints
+- workcell action prompt binding
+- workflow customization governance
+- effective workflow resolution
 
 Use placeholders only where facts are absent. Mark placeholders clearly as `TBD`, `UNKNOWN`, `NOT_PROVIDED`, `OPEN_QUESTION`, or `GAP`.
 
@@ -678,6 +768,11 @@ Before reporting success, verify:
 - No backend/frontend/test implementation files were created.
 - No database schema, pipeline file, deployment file, or technology stack finalization was created.
 - No real person-owned workcells were created unless explicit onboarding commands were provided.
+- The full scaffold includes all workcell action-prompt, workflow, guardrail-binding, workflow-governance, and role-agent blueprint templates.
+- Every explicitly onboarded workcell has `ACTION_PROMPT_<ROLE>_<IDENTITY>.md` and all required workflow files.
+- Every explicitly onboarded workcell uses the exact role-specific default agent blueprint.
+- Every effective workflow is validated against source truth authority, scope, context, evidence, mutation, contract, QA independence, approval, and handoff.
+- Human-only execution is rejected when an exact workcell identity is absent or ambiguous.
 - The report ends with `READY_FOR_DIRECTOR_INTAKE`.
 
 ---
@@ -695,6 +790,10 @@ Do not create application source code.
 Do not mutate project source files.
 
 Do not create real person-owned workcells unless explicit onboarding commands are provided.
+
+When onboarding is explicitly requested, create one role/identity-scoped action prompt and one role-specific default agent blueprint per workcell. Do not reuse a human-only prompt across roles.
+
+Do not apply workflow customization without ADAPT governance and successful effective-workflow guardrail validation.
 
 After scaffolding, stop and report.
 
