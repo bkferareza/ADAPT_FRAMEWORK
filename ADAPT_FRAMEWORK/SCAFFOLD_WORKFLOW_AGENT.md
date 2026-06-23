@@ -13,6 +13,8 @@ This file defines how an AI tool scaffolds a full external ADAPT instance from a
 * This file is the scaffold workflow agent.
 * `SCAFFOLD_OUTPUT_CONTRACT.md` defines required generated files.
 * `WORKCELL_ONBOARDING_CONTRACT.md` defines onboarding behavior.
+* `DEPLOYMENT_MODES.md` defines MODE_A and MODE_B scaffold behavior.
+* `CANONICAL_STARTERS/` is the authoritative source for all starter file content.
 
 Do not depend on tool-specific skills or product-specific agent features. Execute this contract using the file and document capabilities available in the current environment.
 
@@ -134,6 +136,22 @@ Creating the target directory and scaffold files is normal execution.
 
 Recovery must preserve existing ADAPT state. Any destructive overwrite, deletion, replacement, or archival requires an explicit decision before proceeding.
 
+## Deployment Mode Detection
+
+Before scaffolding, detect which deployment mode applies. See `DEPLOYMENT_MODES.md` for full mode definitions.
+
+```
+If {{PROJECT_FOLDER_PATH}} exists AND contains application source files
+(code files, solution files, build configs, or existing documentation):
+→ MODE_A: EXISTING_SOLUTION
+
+If {{PROJECT_FOLDER_PATH}} does not exist, OR contains no source files,
+OR only a project document is the input with no existing codebase:
+→ MODE_B: REQUIREMENTS_ONLY
+```
+
+Record the detected mode in `PROJECT_CONTROL_PLANE.md` under `DeploymentMode` before completing scaffolding.
+
 ## Workflow
 
 1. Locate `START_HERE.md` and resolve `{{ADAPT_FRAMEWORK_PATH}}`.
@@ -143,18 +161,51 @@ Recovery must preserve existing ADAPT state. Any destructive overwrite, deletion
 5. Read `SCAFFOLD_WORKFLOW_AGENT.md`.
 6. Read `SCAFFOLD_OUTPUT_CONTRACT.md`.
 7. Read `WORKCELL_ONBOARDING_CONTRACT.md`.
-8. Read the resolved project document.
-9. Extract source truth.
-10. Infer project shape.
-11. Create or recover the full external ADAPT instance.
-12. Populate starter artifacts required by the scaffold output contract.
-13. Record missing details as open questions and gaps.
-14. Do not create real workcells unless onboarding commands were provided.
-15. Keep project source mutation at `NO` unless the user explicitly requested a clear project shell or source mutation scope.
-16. Produce the ADAPT Startup / Initialization Report.
-17. Stop.
+8. Read `DEPLOYMENT_MODES.md`.
+9. Detect deployment mode (MODE_A or MODE_B) using the detection logic above.
+10. If MODE_A: run the read-only discovery pass defined in `DEPLOYMENT_MODES.md` before proceeding.
+11. Read the resolved project document.
+12. Extract source truth.
+13. Infer project shape.
+14. Create or recover the full external ADAPT instance using canonical starters (see Canonical Starters section below).
+15. Populate starter artifacts required by the scaffold output contract.
+16. Record missing details as open questions and gaps.
+17. Do not create real workcells unless onboarding commands were provided.
+18. Keep project source mutation at `NO` unless the user explicitly requested a clear project shell or source mutation scope.
+19. Record `DeploymentMode` in `PROJECT_CONTROL_PLANE.md`.
+20. Produce the ADAPT Startup / Initialization Report.
+21. Stop.
 
 Do not pause between path resolution and scaffold creation merely to request approval.
+
+## Canonical Starters
+
+`ADAPT_FRAMEWORK/CANONICAL_STARTERS/` is the authoritative source for all starter file content.
+
+### Copy, Do Not Generate
+
+The scaffold must copy each required file from `ADAPT_FRAMEWORK/CANONICAL_STARTERS/` into the `{{ADAPT_INSTANCE_PATH}}` rather than generating starter file content from AI training knowledge.
+
+The canonical starters mirror the ADAPT instance folder structure. For each required file listed in `SCAFFOLD_OUTPUT_CONTRACT.md`, locate the corresponding file in `CANONICAL_STARTERS/` and copy it to the target path.
+
+### Populate After Copying
+
+After copying, populate project-specific values (project name, team names, requirements, decisions) into the copied files using only:
+
+* The resolved project document (promoted or pending promotion)
+* Other explicitly accepted source truth
+* Discovered facts (for MODE_A only)
+
+Do not invent project-specific content to fill placeholders. Record unfilled facts as open questions or gaps.
+
+### Missing Canonical Starters
+
+If a canonical starter file does not exist for a required output file, the AI must:
+
+1. Report `CANONICAL_STARTER_MISSING: {{FILE_NAME}}` for that file in the initialization report.
+2. Generate a best-effort version of the file using ADAPT governance principles.
+3. Mark the generated file with `GENERATED_FROM_TRAINING_KNOWLEDGE: YES` at the top.
+4. Flag it clearly in the initialization report.
 
 ## Source Truth Extraction
 
@@ -254,7 +305,10 @@ Include:
 * ADAPT instance path
 * project document path
 * inferred project name
+* deployment mode detected (MODE_A_EXISTING_SOLUTION or MODE_B_REQUIREMENTS_ONLY)
 * source truth status
+* canonical starters used (count)
+* canonical starters missing (list, if any)
 * folders created
 * files created
 * project files touched

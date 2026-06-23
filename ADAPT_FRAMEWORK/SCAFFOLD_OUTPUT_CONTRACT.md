@@ -79,6 +79,8 @@ Use: Onboard {{IDENTITY}} as {{ROLE}}.
 
 Do not create a real person-owned workcell unless a valid onboarding command was provided.
 
+Whenever onboarding creates a real workcell, its `DEFAULT_AGENT_BLUEPRINT.md` must satisfy the detailed blueprint contract below.
+
 ### 04_INTEGRATION
 
 * INTEGRATION_CONTRACTS.md
@@ -137,6 +139,76 @@ Include all required ADAPT templates, including:
 * VALIDATION_REPORT_TEMPLATE.md
 
 Templates must use double-brace placeholders and must not contain archived or test identities.
+
+`DEFAULT_AGENT_BLUEPRINT_TEMPLATE.md` must encode the detailed per-agent structure and validity rules below. Any generated role-specific blueprint used to instantiate a workcell must meet the same depth requirement.
+
+## Detailed Default Agent Blueprint Contract
+
+Every generated `DEFAULT_AGENT_BLUEPRINT.md` must define every default agent required for its role by `WORKCELL_ONBOARDING_CONTRACT.md`.
+
+A generated `DEFAULT_AGENT_BLUEPRINT.md` is invalid if it only lists agent names. The scaffold must produce full per-agent definitions.
+
+Each agent definition must use this exact structure:
+
+```md
+## {{AGENT_NAME}}
+
+### Purpose
+
+Describe what this agent is responsible for.
+
+### Inputs
+
+List required artifacts, context, or files this agent must read.
+
+### Actions
+
+List what this agent does during execution.
+
+### Outputs
+
+List artifacts, notes, reports, updates, or handoffs this agent produces.
+
+### Boundaries
+
+List what this agent must not do.
+
+### Stop Conditions
+
+List when this agent must stop and create/recommend a gap or blocker.
+
+### Evidence Produced
+
+List evidence this agent contributes to the workcell output.
+
+### Next Handoff
+
+Describe where the work usually goes next.
+```
+
+For every required agent:
+
+* `Purpose` must state the agent's role-specific responsibility.
+* `Inputs` must identify the accepted artifacts, context, contracts, evidence, or files needed by that agent.
+* `Actions` must identify the analysis, decisions, checks, implementation, routing, or reporting performed by that agent.
+* `Outputs` must identify concrete artifacts, updates, reports, decisions, or handoffs.
+* `Boundaries` must include the authority and mutation limits that apply to the agent and role.
+* `Stop Conditions` must identify missing source truth, context, authority, evidence, ownership, dependencies, or safe execution conditions that require a gap or blocker.
+* `Evidence Produced` must identify concrete, reviewable evidence contributed by that agent.
+* `Next Handoff` must identify the usual receiving agent, workcell, or governance lane and the information passed.
+
+The generated text must be specific to both the role and the named agent. Do not use generic filler such as:
+
+* `Perform role task.`
+* `Read required files.`
+* `Produce output.`
+* `Follow rules.`
+
+The generated blueprint must incorporate all role-specific agents, focus areas, boundaries, independence rules, routing requirements, and handoff requirements from `WORKCELL_ONBOARDING_CONTRACT.md`.
+
+Before scaffold or onboarding completion, validate that every required agent has all eight populated sections and that the content is role-specific. If the AI cannot generate full role agent definitions, it must stop and report:
+
+`ROLE_AGENT_BLUEPRINT_DEPTH_FAILURE`
 
 ### 09_CHALLENGE_LANE
 
@@ -209,6 +281,7 @@ Memory Bank content is reference-only and is not live source authority.
 * STOP_RULES.md
 * CONTEXT_BUDGET_POLICY.md
 * EVIDENCE_STANDARD_BY_ROLE.md
+* MINIMAL_VIABLE_ADAPT_MODE.md
 
 ## Population Rules
 
